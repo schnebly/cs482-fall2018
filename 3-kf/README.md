@@ -6,3 +6,13 @@ project[3] Code For cs482/682 Fall 2018 @ UNR
 ```
 sudo apt install python-scipy
 ```
+
+## to run
+
+```
+./sim.py
+```
+
+## code help
+
+http://cs231n.github.io/python-numpy-tutorial/
