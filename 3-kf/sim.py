@@ -51,8 +51,9 @@ def drawDoorSensor(img,x):
 def main():
 
 	# locations of doors (todo, read from file/cmd line)
-	doors = [2, 4, 9]
-
+	
+	num_doors = random.randint(1,9)
+	doors = sorted(random.sample([0,1,2,3,4,5,6,7,8,9], num_doors))
 	# initial setup commands
 	k = 0
 
@@ -127,8 +128,11 @@ def main():
 		# add velocity noise
 		vel_rnd = vel
 		if vel > 0:
-			vel_rnd += (vel+1)*int(np.random.normal(0, 1, 1000)[25])
-		x += vel_rnd 
+			vel_rnd += (vel/10)*int(np.random.normal(0, 1, 1000)[25])
+		if abs(vel_rnd) > abs(vel):
+			x += 0
+		else:
+			x += vel_rnd 
 		if x > xmax:
 			vel = 0
 			x = xmax
