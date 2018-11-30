@@ -93,7 +93,15 @@ if __name__ == '__main__':
     env = wrappers.Monitor(env, outdir, write_upon_reset=True, force=True)
 
     env.seed(0)
-    Q = np.zeros([161, 2])
+
+    ############################################
+    # CS482: This initial Q-table size should 
+    # change to fit the number of actions (columns)
+    # and the number of observations (rows)
+    ############################################
+
+
+    Q = np.zeros([161, env.action_space.n])
 
     ############################################
     # CS482: Here are some of the RL parameters
@@ -106,15 +114,19 @@ if __name__ == '__main__':
 
     n_episodes = 50001
     for episode in range(n_episodes):
+        tick = 0
         reward = 0
         done = False
         state = env.reset()
         s = discretize_state(state[0], state[1], state[2], state[3])
         while done != True:
-            if Q[s][1] >= Q[s][0]:
-                action = 1
-            else:
-                action = 0
+            tick += 1
+            action = 0
+            ri = -999
+            for q in range(env.action_space.n):
+                if Q[s][q] > ri:
+                    action = q
+                    ri = Q[s][q]
             state, reward, done, info = env.step(action)
             sprime = discretize_state(state[0], state[1], state[2], state[3])
             predicted_value = np.max(Q[sprime])
